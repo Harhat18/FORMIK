@@ -4,18 +4,20 @@ import validationSchema from "./validations";
 
 function singup() {
   // eslint-disable-next-line react-hooks/rules-of-hooks
-  const { handleSubmit, handleChange, values, errors } = useFormik({
-    initialValues: {
-      email: "",
-      password: "",
-      passwordConfirm: "",
-    },
-    onSubmit: (values) => {
-      console.log(values);
-    },
-    validationSchema,
-  });
-
+  const { handleSubmit, handleChange, handleBlur, values, errors, touched } =
+    // eslint-disable-next-line react-hooks/rules-of-hooks
+    useFormik({
+      initialValues: {
+        email: "",
+        password: "",
+        passwordConfirm: "",
+      },
+      onSubmit: (values) => {
+        console.log(values);
+      },
+      validationSchema,
+    });
+  console.log(errors);
   return (
     <div>
       <h1>Sign Up</h1>
@@ -26,8 +28,11 @@ function singup() {
           value={values.email}
           type="email"
           onChange={handleChange}
+          onBlur={handleBlur}
         />
-        {errors.email && <div> {errors.email} </div>}
+        {errors.email && touched.email && (
+          <div className="error"> {errors.email} </div>
+        )}
 
         <br />
         <br />
@@ -35,18 +40,24 @@ function singup() {
         <input
           name="password"
           value={values.password}
-          type="email"
           onChange={handleChange}
+          onBlur={handleBlur}
         />
+        {errors.password && touched.password && (
+          <div className="error"> {errors.password} </div>
+        )}
         <br />
         <br />
         <label>Confirm Password</label>
         <input
           name="passwordConfirm"
           value={values.passwordConfirm}
-          type="email"
           onChange={handleChange}
+          onBlur={handleBlur}
         />
+        {errors.passwordConfirm && touched.passwordConfirm && (
+          <div className="error"> {errors.passwordConfirm} </div>
+        )}
         <br />
         <br />
         <button type="submit">Submit</button>
